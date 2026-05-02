@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Vision with OpenCV - Syllabus</title>
+    <meta name="description" content="Computer Vision with OpenCV - High-yield exam topics categorized by unit with priority and difficulty analysis.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient-start: #0f172a;
+            --bg-gradient-end: #1e1e3f;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(148, 163, 184, 0.15);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent-glow: #38bdf8;
+            --accent-color: #818cf8;
+            --highlight: #c084fc;
+            --green: #34d399;
+            --yellow: #fbbf24;
+            --red: #f87171;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            margin: 0;
+            padding: 60px 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 5px;
+            letter-spacing: -0.02em;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            background: -webkit-linear-gradient(right, var(--accent-glow), var(--highlight));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            text-align: center;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 50px;
+            font-weight: 500;
+        }
+
+        .unit-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            transform-origin: center;
+        }
+
+        .unit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .unit-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 50px -10px rgba(56, 189, 248, 0.2);
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+
+        .unit-card:hover::before {
+            left: 150%;
+        }
+
+        .unit-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .unit-badge {
+            background: rgba(192, 132, 252, 0.15);
+            color: var(--highlight);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 1rem;
+            font-weight: 700;
+            border: 1px solid rgba(192, 132, 252, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .focus-line {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-style: italic;
+            padding-left: 4px;
+        }
+
+        .topics-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .topics-list li {
+            position: relative;
+            padding-left: 32px;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        .topics-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .topics-list li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            color: var(--accent-glow);
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.5));
+        }
+
+        .topic-strong {
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+        }
+
+        /* Summary Table */
+        .summary-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .summary-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .summary-table thead th {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-glow);
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 2px solid rgba(56, 189, 248, 0.25);
+        }
+
+        .summary-table tbody td {
+            padding: 14px 16px;
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            color: var(--text-primary);
+        }
+
+        .summary-table tbody tr {
+            transition: background 0.3s ease;
+        }
+
+        .summary-table tbody tr:hover {
+            background: rgba(56, 189, 248, 0.06);
+        }
+
+        .summary-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+        }
+
+        .pill-easy {
+            background: rgba(52, 211, 153, 0.15);
+            color: var(--green);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+        }
+
+        .pill-medium {
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--yellow);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .pill-hard {
+            background: rgba(248, 113, 113, 0.15);
+            color: var(--red);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+        }
+
+        .pill-priority-high {
+            background: rgba(248, 113, 113, 0.15);
+            color: var(--red);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+        }
+
+        .pill-priority-medium {
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--yellow);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        /* Detailed Table */
+        .detailed-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .detailed-table thead th {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-glow);
+            padding: 14px 14px;
+            text-align: left;
+            border-bottom: 2px solid rgba(56, 189, 248, 0.25);
+            vertical-align: top;
+        }
+
+        .detailed-table tbody td {
+            padding: 16px 14px;
+            font-size: 0.93rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            color: var(--text-primary);
+            vertical-align: top;
+            line-height: 1.7;
+        }
+
+        .detailed-table tbody tr {
+            transition: background 0.3s ease;
+        }
+
+        .detailed-table tbody tr:hover {
+            background: rgba(56, 189, 248, 0.06);
+        }
+
+        .detailed-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .detailed-table .unit-label {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            color: var(--highlight);
+            white-space: nowrap;
+        }
+
+        .mini-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mini-list li {
+            margin-bottom: 6px;
+            padding-left: 18px;
+            position: relative;
+        }
+
+        .mini-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .mini-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent-glow);
+            font-weight: bold;
+        }
+
+        /* Resources Card */
+        .resources-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(52, 211, 153, 0.25);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .resources-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        .resources-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .resources-list li {
+            position: relative;
+            padding-left: 32px;
+            margin-bottom: 14px;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+        }
+
+        .resources-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .resources-list li::before {
+            content: "📘";
+            position: absolute;
+            left: 0;
+            top: 1px;
+        }
+
+        .resources-list li.lab::before {
+            content: "🔬";
+        }
+
+        /* Questions Card */
+        .questions-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(192, 132, 252, 0.25);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .questions-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        .questions-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            counter-reset: q-counter;
+        }
+
+        .questions-list li {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 18px;
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            counter-increment: q-counter;
+        }
+
+        .questions-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .questions-list li::before {
+            content: "Q" counter(q-counter);
+            position: absolute;
+            left: 0;
+            top: 1px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--highlight);
+            background: rgba(192, 132, 252, 0.12);
+            padding: 2px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(192, 132, 252, 0.25);
+        }
+
+        .section-divider {
+            text-align: center;
+            margin: 50px 0;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            color: var(--accent-glow);
+            letter-spacing: 0.05em;
+        }
+
+        .section-divider span {
+            background: rgba(56, 189, 248, 0.08);
+            padding: 8px 28px;
+            border-radius: 100px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            .unit-card, .summary-card {
+                padding: 25px;
+            }
+            .unit-title {
+                font-size: 1.4rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .summary-table thead th,
+            .summary-table tbody td {
+                padding: 10px 8px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Computer Vision with OpenCV</h1>
+        <p class="subtitle">High-Yield Exam Topics — Unit-by-Unit Analysis</p>
+
+        <!-- UNIT 1 -->
+        <div class="unit-card">
+            <h2 class="unit-title"><span class="unit-badge">UNIT 1</span> Introduction to Computer Vision and Image Processing</h2>
+            <p class="focus-line">Focus: This unit establishes the foundation. Expect conceptual and introductory questions.</p>
+            <ul class="topics-list">
+                <li><span class="topic-strong">Basics of Computer Vision vs. Image Processing:</span> Understanding the fundamental difference and relationship between the two.</li>
+                <li><span class="topic-strong">Real-world Applications:</span> Be prepared to discuss how computer vision is applied across various industries.</li>
+                <li><span class="topic-strong">Tool Basics:</span> Understanding the role of OpenCV, Python, and Pillow in handling basic image processing tasks.</li>
+            </ul>
+        </div>
+
+        <!-- UNIT 2 -->
+        <div class="unit-card">
+            <h2 class="unit-title"><span class="unit-badge">UNIT 2</span> Image Filtering and Enhancement</h2>
+            <p class="focus-line">Focus: This is a core technical unit. Questions will likely focus on specific techniques and their visual results.</p>
+            <ul class="topics-list">
+                <li><span class="topic-strong">Color Spaces:</span> Understanding different ways images are represented (e.g., RGB, HSV).</li>
+                <li><span class="topic-strong">Image Filters:</span> Mechanisms for blurring (smoothing), sharpening, and edge detection.</li>
+                <li><span class="topic-strong">Enhancement Techniques:</span> Histogram Equalization is a major exam favorite for improving image contrast, along with color adjustment using curves.</li>
+            </ul>
+        </div>
+
+        <!-- UNIT 3 -->
+        <div class="unit-card">
+            <h2 class="unit-title"><span class="unit-badge">UNIT 3</span> Geometric Transforms and Image Features</h2>
+            <p class="focus-line">Focus: This unit is more algorithmic and mathematical.</p>
+            <ul class="topics-list">
+                <li><span class="topic-strong">Geometric Transforms:</span> Understanding Affine Transform and Homography (how to map points from one plane to another).</li>
+                <li><span class="topic-strong">Feature Detection:</span> The ORB (Oriented FAST and Rotated BRIEF) feature descriptor is a high-yield topic for identifying key points in an image.</li>
+                <li><span class="topic-strong">Matching & Robustness:</span> The RANSAC algorithm for handling outliers in feature matching is critical for exams.</li>
+                <li><span class="topic-strong">Application:</span> Image Alignment using the above techniques.</li>
+            </ul>
+        </div>
+
+        <!-- UNIT 4 -->
+        <div class="unit-card">
+            <h2 class="unit-title"><span class="unit-badge">UNIT 4</span> Object Detection and Tracking</h2>
+            <p class="focus-line">Focus: This is the most modern and application-heavy unit, often carrying high weightage in exams.</p>
+            <ul class="topics-list">
+                <li><span class="topic-strong">Deep Learning Detectors:</span> Comparative understanding and working principles of SSD (Single Shot MultiBox Detector) and YOLO (You Only Look Once).</li>
+                <li><span class="topic-strong">Face Detection:</span> Specifically the SSD-based Face Detector.</li>
+                <li><span class="topic-strong">Object Tracking:</span> Techniques for following a detected object over time in a video sequence.</li>
+            </ul>
+        </div>
+
+        <!-- UNIT 5 -->
+        <div class="unit-card">
+            <h2 class="unit-title"><span class="unit-badge">UNIT 5</span> Image Segmentation and Recognition</h2>
+            <p class="focus-line">Focus: Focuses on separating parts of an image and identifying what they are.</p>
+            <ul class="topics-list">
+                <li><span class="topic-strong">Grabcut Algorithm:</span> Both the theory and its implementation in OpenCV for foreground extraction.</li>
+                <li><span class="topic-strong">Optical Character Recognition (OCR):</span> How to perform text recognition on images using OpenCV.</li>
+                <li><span class="topic-strong">Feature Descriptors for Classification:</span> HOG (Histogram of Oriented Gradients) combined with SVM (Support Vector Machine) for tasks like the eyeglass classifier.</li>
+            </ul>
+        </div>
+
+        <!-- SUMMARY TABLE -->
+        <div class="summary-card">
+            <h2 class="summary-title">📋 Summary Table for Exam Preparation</h2>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Unit</th>
+                        <th>Difficulty</th>
+                        <th>Priority</th>
+                        <th>Most Likely Exam Topics</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>I</strong></td>
+                        <td><span class="pill pill-easy">Easy</span></td>
+                        <td><span class="pill pill-priority-medium">Medium</span></td>
+                        <td>CV Applications, Image Basics</td>
+                    </tr>
+                    <tr>
+                        <td><strong>II</strong></td>
+                        <td><span class="pill pill-easy">Easy</span></td>
+                        <td><span class="pill pill-priority-high">High</span></td>
+                        <td>Histogram Equalization, Edge Detection, Blurring</td>
+                    </tr>
+                    <tr>
+                        <td><strong>III</strong></td>
+                        <td><span class="pill pill-medium">Medium</span></td>
+                        <td><span class="pill pill-priority-medium">Medium</span></td>
+                        <td>Homography, ORB, RANSAC</td>
+                    </tr>
+                    <tr>
+                        <td><strong>IV</strong></td>
+                        <td><span class="pill pill-hard">Hard</span></td>
+                        <td><span class="pill pill-priority-high">High</span></td>
+                        <td>YOLO vs. SSD, Face Detection, Tracking</td>
+                    </tr>
+                    <tr>
+                        <td><strong>V</strong></td>
+                        <td><span class="pill pill-medium">Medium</span></td>
+                        <td><span class="pill pill-priority-high">High</span></td>
+                        <td>Grabcut Theory, OCR, HOG + SVM</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION DIVIDER -->
+        <div class="section-divider"><span>📖 Detailed Syllabus Breakdown</span></div>
+
+        <!-- DETAILED UNIT TABLE -->
+        <div class="summary-card">
+            <h2 class="summary-title">🗂️ Unit-by-Unit Detailed Analysis</h2>
+            <p style="text-align:center; color: var(--text-secondary); margin-top:-15px; margin-bottom:25px; font-size:0.95rem;">B.Tech 8th Semester — Shri Shankaracharya Technical Campus</p>
+            <table class="detailed-table">
+                <thead>
+                    <tr>
+                        <th>Unit</th>
+                        <th>Focus Areas</th>
+                        <th>High-Yield Topics</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="unit-label">Unit I:<br>Introduction</td>
+                        <td>Foundational basics of computer vision and image processing.</td>
+                        <td>
+                            <ul class="mini-list">
+                                <li><span class="topic-strong">Applications:</span> Real-world uses across industries.</li>
+                                <li><span class="topic-strong">Tools:</span> Basic processing using Python, Pillow, and OpenCV.</li>
+                                <li><span class="topic-strong">Core Tasks:</span> Fundamental concepts of image classification and object detection.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="unit-label">Unit II:<br>Filtering &amp; Enhancement</td>
+                        <td>Techniques to improve image quality and extract features.</td>
+                        <td>
+                            <ul class="mini-list">
+                                <li><span class="topic-strong">Histogram Equalization:</span> A key technique for image enhancement.</li>
+                                <li><span class="topic-strong">Edge Detection:</span> Essential for structural analysis in images.</li>
+                                <li><span class="topic-strong">OpenCV Operations:</span> Blurring, sharpening, and color space transformations.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="unit-label">Unit III:<br>Transforms &amp; Features</td>
+                        <td>Spatial manipulation and identifying unique image descriptors.</td>
+                        <td>
+                            <ul class="mini-list">
+                                <li><span class="topic-strong">Transforms:</span> Affine Transform and Homography.</li>
+                                <li><span class="topic-strong">Feature Descriptors:</span> ORB (Oriented FAST and Rotated BRIEF).</li>
+                                <li><span class="topic-strong">Algorithms:</span> RANSAC and Feature Matching algorithms.</li>
+                                <li><span class="topic-strong">Application:</span> Image Alignment.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="unit-label">Unit IV:<br>Detection &amp; Tracking</td>
+                        <td>Locating and following specific objects in frames.</td>
+                        <td>
+                            <ul class="mini-list">
+                                <li><span class="topic-strong">Deep Learning Detectors:</span> YOLO (You Only Look Once) and SSD (Single Shot MultiBox Detector).</li>
+                                <li><span class="topic-strong">Face Detection:</span> Specifically SSD-based face detectors.</li>
+                                <li><span class="topic-strong">Tracking:</span> Using OpenCV for temporal object tracking.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="unit-label">Unit V:<br>Segmentation &amp; Recognition</td>
+                        <td>Dividing images into segments and identifying content.</td>
+                        <td>
+                            <ul class="mini-list">
+                                <li><span class="topic-strong">Grabcut:</span> Theory and implementation for image segmentation.</li>
+                                <li><span class="topic-strong">OCR:</span> Optical Character Recognition using OpenCV.</li>
+                                <li><span class="topic-strong">Classifiers:</span> HOG (Histogram of Oriented Gradients) combined with SVM (Support Vector Machine).</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- KEY RESOURCES -->
+        <div class="resources-card">
+            <h2 class="resources-title">📚 Key Resources for Exam Preparation</h2>
+            <ul class="resources-list">
+                <li><span class="topic-strong">Primary Textbooks:</span> <em>Learning OpenCV</em> by Gary Bradski and <em>Learning OpenCV 5 Computer Vision with Python</em> by Joseph Howse.</li>
+                <li class="lab"><span class="topic-strong">Lab Correlation:</span> High-yield practical topics include SIFT/SURF/HOG descriptors, Camera Calibration, and Perspective Transformations, as these are featured in the laboratory experiments.</li>
+            </ul>
+        </div>
+
+        <!-- PRACTICE QUESTIONS -->
+        <div class="questions-card">
+            <h2 class="questions-title">🎯 Practice Questions</h2>
+            <ol class="questions-list">
+                <li>What are the highest-yield topics in Unit IV (Object Detection and Tracking) of the Computer Vision with OpenCV syllabus?</li>
+                <li>Which concepts from the Geometric Transforms and Image Features unit (Unit III) and the Image Segmentation and Recognition unit (Unit V) are most likely to appear in the exam, focusing on specific algorithms?</li>
+                <li>In the context of the Computer Vision syllabus, which image enhancement and basic image processing techniques (Units I and II) are fundamental and must be mastered for high marks?</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
